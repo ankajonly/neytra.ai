@@ -4,6 +4,7 @@ export function notFoundHandler(req, _res, next) {
 
 export function errorHandler(error, _req, res, _next) {
   const statusCode = error.statusCode || 500;
+  void _next;
 
   res.status(statusCode).json({
     success: false,
