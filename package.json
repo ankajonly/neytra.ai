@@ -6,12 +6,56 @@
     "client",
     "server"
   ],
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2022": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "overrides": [
+      {
+        "files": ["server/**/*.js"],
+        "env": {
+          "node": true,
+          "browser": false
+        },
+        "rules": {
+          "react/react-in-jsx-scope": "off"
+        }
+      },
+      {
+        "files": ["client/**/*.js", "client/**/*.jsx"],
+        "rules": {
+          "react/react-in-jsx-scope": "off",
+          "react/prop-types": "off"
+        }
+      }
+    ]
+  },
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace client\" \"npm run dev --workspace server\"",
     "dev:client": "npm run dev --workspace client",
     "dev:server": "npm run dev --workspace server",
     "build": "npm run build --workspace client && npm run build --workspace server",
-    "lint": "npm run lint --workspace client && npm run lint --workspace server",
+    "lint": "eslint -c .eslintrc.cjs \"client/src/**/*.{js,jsx}\" && eslint -c .eslintrc.cjs \"server/src/**/*.js\"",
     "format": "prettier --write .",
     "docker:up": "docker compose up --build",
     "docker:down": "docker compose down"
@@ -19,6 +63,7 @@
   "devDependencies": {
     "concurrently": "^9.1.2",
     "eslint": "^9.24.0",
+    "@eslint/eslintrc": "^2.6.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
